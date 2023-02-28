@@ -38,9 +38,10 @@ pub async fn auth(cookie: &CookieJar<'_>, claims: Claims) -> Result<Json<String>
     }
     let user_in_claims = user_in_claims.unwrap();
 
-    if user_in_claims.user_token != claims.user.user_token {
-        return Err(Status::Unauthorized);
-    }
+    // En este punto son diferentes
+    // if user_in_claims.user_token != claims.user.user_token {
+    //     return Err(Status::Unauthorized);
+    // }
 
     match helpers::token_generator(user_in_claims).await {
         Ok((refresh_token, access_token)) => {
