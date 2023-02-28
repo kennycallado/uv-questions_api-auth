@@ -8,18 +8,30 @@ services:
     expose:
       - "5432:5432"
     environment:
-      POSTGRES_DB: <db>
-      POSTGRES_USER: <user>
-      POSTGRES_PASSWORD: <password>
-#      ROCKET_PROFILE_URL: "http://localhost:8001/profile" # users
+      POSTGRES_DB: temp
+      POSTGRES_USER: temp
+      POSTGRES_PASSWORD: temp
+      ROCKET_PROFILE_URL: "http://localhost:8001/profile"
+      ROCKET_USER_URL: "http://localhost:8002/user"
 
-  # profiles_api:
-  #   image: kennycallado/uv-questions_api-profiles:v0.1-amd64
-  #   ports:
-  #     - "8001:8000"
-  #   expose:
-  #     - "8001:8000"
-  #   environment:
-  #     - ROCKET_DATABASES={question={url="postgres://users:users@database/users"}}
-  #     - ROCKET_ADDRESS="0.0.0.0"
-  #     - ROCKET_PORT=8000
+  profiles_api:
+    image: kennycallado/uv-questions_api-profiles:v0.1-amd64
+    ports:
+      - "8001:8000"
+    expose:
+      - "8001:8000"
+    environment:
+      - ROCKET_DATABASES={questions={url="postgres://temp:temp@database/temp"}}
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
+
+  users_api:
+    image: kennycallado/uv-questions_api-users:v0.1-amd64
+    ports:
+      - "8002:8000"
+    expose:
+      - "8002:8000"
+    environment:
+      - ROCKET_DATABASES={questions={url="postgres://temp:temp@database/temp"}}
+      - ROCKET_ADDRESS="0.0.0.0"
+      - ROCKET_PORT=8000
